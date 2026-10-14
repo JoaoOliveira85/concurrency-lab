@@ -1,0 +1,30 @@
+# Moves the plan forward: a merged pull request closes its issue, then every issue whose
+# blockers are all closed gets a branch. One workflow does both, because an issue closed
+# with GITHUB_TOKEN doesn't start another workflow run.
+name: pipeline
+
+on:
+  pull_request:
+    types: [closed]
+  issues:
+    types: [closed, reopened]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: pipeline
+
+jobs:
+  advance:
+    if: github.event_name != 'pull_request' || github.event.pull_request.merged
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/scripts
+      - run: node .github/scripts/advance.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
