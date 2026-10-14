@@ -1,13 +1,5 @@
-# build-template
+# Concurrency lab
 
-The starting point for every build repo: a README, an MIT license, a pull request template and the `pipeline` workflow that moves the work forward. Repos are created from it by a seeding script, which then adds the labels, milestones, issues, blocked-by links, a ruleset on `main` and the first branches. A repo made from it replaces this README with its own.
+Eight small Java experiments that make a concurrency fact happen on demand, each with a broken exhibit, a fix and a write-up, checked by a kit that refuses to pass by luck.
 
-## How a build repo moves
-
-Each stage of the plan is an issue, and it waits on the issues it's blocked by.
-
-1. When an issue's blockers are all closed, the workflow opens a branch for it, named `<issue number>-<title>` and linked to the issue.
-2. You work on that branch and open a pull request (`Closes #<n>` is already in the template).
-3. Merging closes the issue. In the same run, the workflow opens branches for whatever that unblocked.
-
-Issues labeled `who: owner` are hand work, so they get no branch; close them yourself when they're done. To re-run the workflow, use **Actions → pipeline → Run workflow**.
+The work is planned as issues. Each milestone is a part of the build and each issue is one stage, with its estimate, its check and the stages it waits on. The `pipeline` workflow opens a branch for an issue once its blockers are closed, and merging the pull request closes it.
